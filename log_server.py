@@ -9,11 +9,12 @@ import redis
 import time
 import os
 import json
+import mimetypes
 
 count = 1
 heartbeat_interval = 20 * 1000
 heartbeat_key = 'agent_clients'
-read_root = '/var/log/'
+read_root = '/var/log/nginx'
 write_root = '/home/ianl/writable'
 redis_host = 'localhost'
 redis_port = 6379
@@ -55,7 +56,7 @@ def tail():
 @get('/download')
 def download():
     path = request.query.p
-    return static_file(path, root='/')
+    return static_file(path, root=read_root, download=path)
 
 
 @post('upload')
@@ -67,7 +68,7 @@ def upload():
 
 def parse_command_line():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--read_dir', help='base read dir', default='/var/log')
+    parser.add_argument('-l', '--read_dir', help='base read dir', default='/var/log/nginx')
     parser.add_argument('-w', '--write_dir', default='/home/ianl/writable', help='base write host')
     parser.add_argument('-r', '--redis', default='localhost:6379', help='redis url')
     parser.add_argument('-p', '--port', default=9090, type=int, help='server listen port')
