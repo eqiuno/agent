@@ -1,0 +1,36 @@
+<% include fragments/header.ejs %>
+<script type="application/javascript">
+    var data = <%- JSON.stringify(data) %>
+    var tab = <%- JSON.stringify(tab) %>
+    var ip = <%- JSON.stringify(desIp) %>
+</script>
+<ol class="breadcrumb">
+    <li><a href="/getips">Servers</a></li>
+    <li class="active">Files</li>
+</ol>
+<div id="filelist" class="panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <h2 class="text-uppercase col-md-12" style="color: yellowgreen">日志文件列表</h2>
+        </div>
+    </div>
+    <div id="iplist" class="panel-body">
+        <table class="table text-left table-striped table-hover table-condensed">
+            <thead>
+            <tr class="text-capitalize">
+                <td><strong>File Name</strong></td>
+                <td><strong>Tail Log</strong></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-repeat="c:contents">
+                <td>* {{c.logname}}</td>
+                <td><a class="btn btn-danger" href="/tailstream?ip={{c.ip}}&logname={{c.logname}}" style="color: #080808" v-show="c.display == true">Tail</a></td>
+                <td class="text-right"><a class="btn btn-success" href="/download?filename={{c.logname}}" style="color: #080808">Download</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<% include fragments/footer.ejs %>

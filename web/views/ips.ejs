@@ -1,0 +1,32 @@
+<% include fragments/header.ejs %>
+<script type="application/javascript">
+    var data = <%- JSON.stringify(data)%>
+    var tab = <%- JSON.stringify(tab)%>
+</script>
+<!--div id="ips"></div-->
+<div id="ips" class="panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <h2 class="text-uppercase col-md-12" style="color: yellowgreen">在线IP和服务器最后存活时间</h2>
+        </div>
+    </div>
+    <div id="iplist" class="panel-body">
+        <table class="table text-left table-striped table-hover table-condensed">
+            <thead>
+            <tr class="text-capitalize">
+                <td><strong>IP</strong></td>
+                <td><strong>Last Heartbeat Time</strong></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-repeat="c:contents">
+                <td>{{c.ip}}</td>
+                <td>{{c.heartbeat}}</td>
+                <td class="text-right"><a class="btn btn-danger" href="#" style="color: #080808" v-show="c.dead == true">Dead</a></td>
+                <td class="text-right"><a class="btn btn-success" href="/filelist?ip={{c.ip}}" style="color: #080808" v-show="c.dead == false">Log Files</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<% include fragments/footer.ejs %>
